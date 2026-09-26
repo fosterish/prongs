@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="keyboard_height">180dp</dimen>
+    <dimen name="octave_strip_height">48dp</dimen>
+
+    <!-- Across-the-keys measurements for the rotated keyboard in the wide layout. -->
+    <dimen name="keyboard_width_vertical">118dp</dimen>
+    <dimen name="octave_strip_width_vertical">58dp</dimen>
+</resources>

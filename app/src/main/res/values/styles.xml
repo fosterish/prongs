@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light palette; the dark counterpart is in values-night. -->
+    <style name="BaseTunerTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- Split out so the v27 overlays can add windowLightNavigationBar to it. -->
+    <style name="TunerTheme" parent="@style/BaseTunerTheme" />
+</resources>

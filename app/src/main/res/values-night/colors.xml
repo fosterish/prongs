@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#FF0E1116</color>
+    <color name="surface">#FF181D25</color>
+    <color name="surface_raised">#FF222834</color>
+
+    <color name="text_primary">#FFE8ECF2</color>
+    <color name="text_secondary">#FF8C97A8</color>
+    <color name="text_disabled">#FF4A535F</color>
+
+    <color name="in_tune">#FF44D9A4</color>
+    <color name="off_pitch">#FFE8A33D</color>
+    <color name="accent">#FF5AA9F7</color>
+
+    <color name="key_white">#FFE8ECF2</color>
+    <color name="key_white_pressed">#FFBFC7D2</color>
+    <color name="key_black">#FF1B212B</color>
+    <color name="key_black_pressed">#FF39424F</color>
+    <color name="key_border">#FF0B0E12</color>
+
+    <color name="key_white_other">#FFA9CEF2</color>
+    <color name="key_black_other">#FF27405C</color>
+</resources>

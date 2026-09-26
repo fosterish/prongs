@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Sized against the circle mask, radius 36 about (54,54), the tightest a launcher applies. Tips
+  and foot sit 5 clear of that rim rather than at equal extent, which is why the on-axis foot
+  reaches lower than the 12-off-axis tips reach high.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M42,30 V50 A12,12 0 0 0 66,50 V30"
+        android:strokeColor="#5AA9F7"
+        android:strokeWidth="8"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M54,62 V81"
+        android:strokeColor="#5AA9F7"
+        android:strokeWidth="8"
+        android:strokeLineCap="round" />
+</vector>

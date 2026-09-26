@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Light palette. The dark one lives in values-night and must define the same names. -->
+<resources>
+    <color name="background">#FFF6F7FA</color>
+    <color name="surface">#FFE7EBF1</color>
+    <color name="surface_raised">#FFD6DCE5</color>
+
+    <color name="text_primary">#FF131820</color>
+    <color name="text_secondary">#FF5B6675</color>
+    <color name="text_disabled">#FFA6AFBB</color>
+
+    <color name="in_tune">#FF12915E</color>
+    <color name="off_pitch">#FFF08C10</color>
+    <color name="accent">#FF1C6CCC</color>
+
+    <color name="key_white">#FFFFFFFF</color>
+    <color name="key_white_pressed">#FFD9E0E9</color>
+    <color name="key_black">#FF2A313C</color>
+    <color name="key_black_pressed">#FF4B5563</color>
+    <color name="key_border">#FFB2BAC6</color>
+
+    <!-- Keys targeted only in some other octave: the accent, backed well off. -->
+    <color name="key_white_other">#FFC6DEFA</color>
+    <color name="key_black_other">#FF3A5570</color>
+
+    <!-- Not overridden in values-night: one icon has to read on both info pages and any wallpaper. -->
+    <color name="icon_background">#FF1E3052</color>
+</resources>

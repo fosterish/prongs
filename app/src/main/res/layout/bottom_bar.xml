@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Reference pitch on the left, theme pickers on the right. Shared by both root layouts. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="14dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="6dp"
+    android:paddingBottom="6dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/reference_label"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/pitchDown"
+        android:layout_width="44dp"
+        android:layout_height="40dp"
+        android:background="@drawable/spinner_button"
+        android:contentDescription="@string/reference_lower"
+        android:padding="0dp"
+        android:stateListAnimator="@null"
+        android:text="@string/minus_sign"
+        android:textColor="@color/text_primary"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/pitchValue"
+        android:layout_width="86dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_primary"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/pitchUp"
+        android:layout_width="44dp"
+        android:layout_height="40dp"
+        android:background="@drawable/spinner_button"
+        android:contentDescription="@string/reference_raise"
+        android:padding="0dp"
+        android:stateListAnimator="@null"
+        android:text="@string/plus_sign"
+        android:textColor="@color/text_primary"
+        android:textSize="19sp" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
+
+    <ImageButton
+        android:id="@+id/themeLight"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/theme_light"
+        android:padding="9dp"
+        android:src="@drawable/ic_theme_light" />
+
+    <ImageButton
+        android:id="@+id/themeDark"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/theme_dark"
+        android:padding="9dp"
+        android:src="@drawable/ic_theme_dark" />
+
+    <ImageButton
+        android:id="@+id/themeSystem"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/theme_system"
+        android:padding="9dp"
+        android:src="@drawable/ic_theme_system" />
+</LinearLayout>

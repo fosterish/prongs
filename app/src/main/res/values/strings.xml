@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Prongs</string>
+    <string name="permission_rationale">Prongs needs microphone access to hear the note you are playing.</string>
+    <string name="grant_permission">Grant microphone access</string>
+    <string name="listening">Listening\u2026</string>
+    <string name="mode_chromatic">tap keys to choose targets</string>
+    <string name="clear_action">tap here to clear</string>
+    <string name="reference_label">A4</string>
+    <string name="reference_value">%d Hz</string>
+    <string name="reference_lower">Lower the reference pitch</string>
+    <string name="reference_raise">Raise the reference pitch</string>
+    <string name="minus_sign">\u2212</string>
+    <string name="plus_sign">+</string>
+    <string name="octave_label">Octave</string>
+    <string name="theme_light">Light theme</string>
+    <string name="theme_dark">Dark theme</string>
+    <string name="theme_system">Follow system theme</string>
+    <string name="info_action">About Prongs</string>
+    <string name="version_format">v%1$s</string>
+    <string name="repo_url" translatable="false">https://github.com/fosterish/prongs</string>
+    <plurals name="mode_targets">
+        <item quantity="one">%d target</item>
+        <item quantity="other">%d targets</item>
+    </plurals>
+</resources>
