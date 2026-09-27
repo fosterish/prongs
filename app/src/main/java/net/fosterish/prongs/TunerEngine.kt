@@ -19,6 +19,7 @@ class TunerEngine(
     private val mainHandler = Handler(Looper.getMainLooper())
     private val yin = Yin(AudioCapture.SAMPLE_RATE, AudioCapture.WINDOW_SIZE)
     private val gate = SignalGate()
+    private val folder = OctaveFolder()
     private val smoother = PitchSmoother()
     private val selector = TargetSelector()
     private val capture = AudioCapture(audioSource = preferredAudioSource(), onWindow = ::onWindow)
@@ -41,6 +42,7 @@ class TunerEngine(
     fun stop() {
         capture.stop()
         gate.reset()
+        folder.reset()
         smoother.reset()
         selector.reset()
     }
@@ -56,8 +58,14 @@ class TunerEngine(
             return
         }
 
-        val smoothed = smoother.accept(estimate!!.frequencyHz, System.nanoTime())
-        publish(selector.select(smoothed, targets, SystemClock.uptimeMillis()))
+        // Folding before the smoother keeps an octave error from reading as a new note, which
+        // would otherwise restart the filter twice per excursion. The volatile is read once so
+        // folding and selection cannot disagree about the targets.
+        val active = targets
+        val folded = folder.fold(estimate!!.frequencyHz, active, selector.a4Hz)
+        val smoothed = smoother.accept(folded.frequencyHz, System.nanoTime())
+        val reading = selector.select(smoothed, active, SystemClock.uptimeMillis())
+        publish(reading.copy(foldedOctaves = folded.octaves))
     }
 
     private fun publish(reading: TuningReading?) {

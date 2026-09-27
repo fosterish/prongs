@@ -8,6 +8,8 @@ data class TuningReading(
     val targetHz: Double,
     val detectedHz: Double,
     val cents: Double,
+    /** Octaves folded out of [detectedHz]: positive for an overtone, negative for an undertone. */
+    val foldedOctaves: Int = 0,
 )
 
 /**

@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.Rect
 import android.graphics.Typeface
 import android.os.SystemClock
 import android.util.AttributeSet
@@ -43,6 +44,16 @@ class TuningMeterView @JvmOverloads constructor(
 
         /** Boundary between the note block above and the scale below. */
         private const val SCALE_TOP_FRACTION = 0.56f
+
+        /** Marks a reading folded down from an overtone, or up from an undertone. */
+        private const val ARROW_UP = "\u2191"
+        private const val ARROW_DOWN = "\u2193"
+
+        /**
+         * How long the arrow survives frames that need no folding. A detector slipping in and
+         * out of a harmonic would otherwise blink it.
+         */
+        private const val ARROW_HOLD_MILLIS = 250L
     }
 
     private val letterPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -69,6 +80,7 @@ class TuningMeterView @JvmOverloads constructor(
     private val tickPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeCap = Paint.Cap.ROUND }
     private val barPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeCap = Paint.Cap.ROUND }
     private val needlePath = Path()
+    private val arrowInk = Rect()
 
     private val colorPrimary = context.getColor(R.color.text_primary)
     private val colorSecondary = context.getColor(R.color.text_secondary)
@@ -82,6 +94,8 @@ class TuningMeterView @JvmOverloads constructor(
     private var lostAtMillis = 0L
     private var targetCents = 0f
     private var needleCents = 0f
+    private var arrowOctaves = 0
+    private var arrowAtMillis = 0L
 
     /**
      * Holds [reading] in place of live input, for the tone the keyboard sounds; null hands the
@@ -92,6 +106,8 @@ class TuningMeterView @JvmOverloads constructor(
         this.reading = reading
         lostAtMillis = 0L
         targetCents = 0f
+        arrowOctaves = 0
+        arrowAtMillis = 0L
         if (reading == null) needleCents = 0f
         invalidate()
     }
@@ -102,10 +118,22 @@ class TuningMeterView @JvmOverloads constructor(
             reading = incoming
             lostAtMillis = 0L
             targetCents = incoming.cents.toFloat().coerceIn(-RANGE_CENTS, RANGE_CENTS)
+            trackArrow(incoming.foldedOctaves)
         } else if (reading != null && lostAtMillis == 0L) {
             lostAtMillis = SystemClock.uptimeMillis()
         }
         invalidate()
+    }
+
+    /** Latches the direction folding came from, and lets it lapse once folding stops. */
+    private fun trackArrow(octaves: Int) {
+        val now = SystemClock.uptimeMillis()
+        if (octaves != 0) {
+            arrowOctaves = octaves
+            arrowAtMillis = now
+        } else if (now - arrowAtMillis > ARROW_HOLD_MILLIS) {
+            arrowOctaves = 0
+        }
     }
 
     /** 1 while live, 1 through the hold, ramping to 0 across the fade. */
@@ -222,19 +250,36 @@ class TuningMeterView @JvmOverloads constructor(
         val target = "target %.1f Hz".format(reading.targetHz)
         val measuredSize = sp(21f)
         val targetSize = sp(13f)
+        val arrowSize = sp(15f)
         val gap = dp(10f)
+        val arrowGap = dp(4f)
 
         readoutPaint.textSize = measuredSize
         val measuredWidth = readoutPaint.measureText(measured)
+        readoutPaint.textSize = arrowSize
+        // The slot spans the arrow's ink rather than its advance, which would pad both sides
+        // with side bearings. It is held whether an arrow is drawn or not, so the row cannot
+        // shuffle as the detector slips in and out of a harmonic.
+        readoutPaint.getTextBounds(ARROW_UP, 0, ARROW_UP.length, arrowInk)
+        val arrowSlot = arrowGap + arrowInk.width()
         readoutPaint.textSize = targetSize
         val targetWidth = readoutPaint.measureText(target)
 
-        var x = centerX - (measuredWidth + gap + targetWidth) / 2f
+        var x = centerX - (measuredWidth + arrowSlot + gap + targetWidth) / 2f
         readoutPaint.textSize = measuredSize
         readoutPaint.setColor(colorPrimary, alpha)
         canvas.drawText(measured, x, baselineY, readoutPaint)
 
-        x += measuredWidth + gap
+        x += measuredWidth
+        if (arrowOctaves != 0) {
+            readoutPaint.textSize = arrowSize
+            readoutPaint.setColor(colorSecondary, alpha)
+            val arrow = if (arrowOctaves > 0) ARROW_UP else ARROW_DOWN
+            // Both arrows are placed on the up arrow's ink, so neither direction shifts the row.
+            canvas.drawText(arrow, x + arrowGap - arrowInk.left, baselineY, readoutPaint)
+        }
+
+        x += arrowSlot + gap
         readoutPaint.textSize = targetSize
         readoutPaint.setColor(colorSecondary, alpha)
         canvas.drawText(target, x, baselineY, readoutPaint)
